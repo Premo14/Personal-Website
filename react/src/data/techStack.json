@@ -1,0 +1,55 @@
+{
+  "Frontend": {
+    "tools": [
+      { "name": "React", "logo": "/logos/react.svg", "url": "https://react.dev" },
+      { "name": "React Native", "logo": "/logos/react.svg", "url": "https://reactnative.dev" },
+      { "name": "TypeScript", "logo": "/logos/typescript.svg", "url": "https://www.typescriptlang.org" },
+      { "name": "JavaScript", "logo": "/logos/javascript.svg", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+      { "name": "Tailwind CSS", "logo": "/logos/tailwindcss.svg", "url": "https://tailwindcss.com" }
+    ]
+  },
+  "Backend": {
+    "tools": [
+      { "name": "Go", "logo": "/logos/go.svg", "url": "https://go.dev" },
+      { "name": "TypeScript", "logo": "/logos/typescript.svg", "url": "https://www.typescriptlang.org" },
+      { "name": "JavaScript", "logo": "/logos/javascript.svg", "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript" },
+      { "name": "Node.js", "logo": "/logos/nodedotjs.svg", "url": "https://nodejs.org" },
+      { "name": "Express", "logo": "/logos/express.svg", "url": "https://expressjs.com" }
+    ]
+  },
+  "DevOps": {
+    "tools": [
+      { "name": "Docker", "logo": "/logos/docker.svg", "url": "https://www.docker.com" },
+      { "name": "GitHub", "logo": "/logos/github.svg", "url": "https://github.com" },
+      { "name": "GitHub Actions", "logo": "/logos/githubactions.svg", "url": "https://docs.github.com/en/actions" },
+      { "name": "Terraform", "logo": "/logos/terraform.svg", "url": "https://www.terraform.io" },
+      { "name": "Linux", "logo": "/logos/linux.svg", "url": "https://kernel.org" },
+      { "name": "Scripting", "logo": "/logos/gnubash.svg", "url": "https://www.gnu.org/software/bash/" }
+    ]
+  },
+  "Cloud": {
+    "tools": [
+      { "name": "AWS EC2", "logo": "/logos/amazonec2.svg", "url": "https://aws.amazon.com/ec2/" },
+      { "name": "AWS S3", "logo": "/logos/amazons3.svg", "url": "https://aws.amazon.com/s3/" },
+      { "name": "Route 53", "logo": "/logos/amazonroute53.svg", "url": "https://aws.amazon.com/route53/" },
+      { "name": "Cloudinary", "logo": "/logos/cloudinary.svg", "url": "https://cloudinary.com" }
+    ]
+  },
+  "Databases": {
+    "tools": [
+      { "name": "PostgreSQL", "logo": "/logos/postgresql.svg", "url": "https://www.postgresql.org" },
+      { "name": "MariaDB", "logo": "/logos/mariadb.svg", "url": "https://mariadb.org" },
+      { "name": "MySQL", "logo": "/logos/mysql.svg", "url": "https://www.mysql.com" },
+      { "name": "MongoDB", "logo": "/logos/mongodb.svg", "url": "https://www.mongodb.com" }
+    ]
+  },
+  "Utilities": {
+    "tools": [
+      { "name": "Postman", "logo": "/logos/postman.svg", "url": "https://www.postman.com" },
+      { "name": "JetBrains IDEs", "logo": "/logos/jetbrains.svg", "url": "https://www.jetbrains.com" },
+      { "name": "Vite", "logo": "/logos/vite.svg", "url": "https://vitejs.dev" },
+      { "name": "ESLint", "logo": "/logos/eslint.svg", "url": "https://eslint.org" },
+      { "name": "NGINX", "logo": "/logos/nginx.svg", "url": "https://nginx.org" }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+services:
+  frontend:
+    container_name: frontend
+    ports:
+      - "${VITE_APP_PORT:-5137}:${VITE_APP_PORT:-5137}"
+    build:
+      context: ./react
+      dockerfile: Dockerfile
+      target: ${BUILD_STAGE}
+    working_dir: /app
+    environment:
+      - VITE_APP_PORT=${VITE_APP_PORT:-5173}
+      - BACKEND_PORT=${BACKEND_PORT:-8080}
+      - BUILD_STAGE=${BUILD_STAGE:-development}
+      - HOST=${HOST:-0.0.0.0}
+    volumes:
+      - ./react:/app
+      - /app/node_modules
+    networks:
+      - personal-website-network
+
+volumes:
+  mysql-data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ./data
+      o: bind
+
+networks:
+  personal-website-network:
+    driver: bridge

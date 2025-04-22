@@ -1,10 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Dots&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
     body {
-        @apply bg-white text-gray-900;
+        background-color: theme('colors.background.DEFAULT');
+        color: theme('colors.textPrimary.DEFAULT');
+    }
+
+    .dark body {
+        background-color: theme('colors.background.dark');
+        color: theme('colors.textPrimary.dark');
     }
 
     h1, h2, h3 {
@@ -12,16 +20,57 @@
     }
 }
 
+@layer utilities {
+    .bg-background {
+        background-color: theme('colors.background.DEFAULT');
+    }
+
+    .dark .bg-background {
+        background-color: theme('colors.background.dark');
+    }
+
+    .bg-surface {
+        background-color: theme('colors.surface.DEFAULT');
+    }
+
+    .dark .bg-surface {
+        background-color: theme('colors.surface.dark');
+    }
+
+    .text-textPrimary {
+        color: theme('colors.textPrimary.DEFAULT');
+    }
+
+    .dark .text-textPrimary {
+        color: theme('colors.textPrimary.dark');
+    }
+
+    .text-textMuted {
+        color: theme('colors.textMuted.DEFAULT');
+    }
+
+    .dark .text-textMuted {
+        color: theme('colors.textMuted.dark');
+    }
+
+    .border-border {
+        border-color: theme('colors.border.DEFAULT');
+    }
+
+    .dark .border-border {
+        border-color: theme('colors.border.dark');
+    }
+}
+
 @layer components {
-    .btn {
-        @apply px-4 py-2 rounded-md font-semibold transition duration-200;
+    .card {
+        background-color: theme('colors.surface.DEFAULT');
+        color: theme('colors.textPrimary.DEFAULT');
+        @apply p-4 rounded-xl shadow-md transition;
     }
 
-    .btn-primary {
-        @apply btn bg-brand text-white hover:bg-brand-dark;
-    }
-
-    .btn-outline {
-        @apply btn border border-brand text-brand hover:bg-brand hover:text-white;
+    .dark .card {
+        background-color: theme('colors.surface.dark');
+        color: theme('colors.textPrimary.dark');
     }
 }

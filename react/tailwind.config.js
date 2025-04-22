@@ -1,17 +1,45 @@
-// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '#6366F1',
-          dark: '#4F46E5',
+          DEFAULT: '#D4AF37',
+          dark: '#B38E2C',
         },
+        accent: {
+          DEFAULT: '#E5E4E2',
+          dark: '#C0BEBB',
+        },
+
+        background: {
+          DEFAULT: '#ededed',
+          dark: '#121212',
+        },
+        surface: {
+          DEFAULT: '#e1e1e1',
+          dark: '#1e1e1e',
+        },
+
+        textPrimary: {
+          DEFAULT: '#1e1e1e',
+          dark: '#f5f5f5',
+        },
+        textMuted: {
+          DEFAULT: '#707070',
+          dark: '#cecece',
+        },
+
+        border: {
+          DEFAULT: '#cccccc',
+          dark: '#2A2A2A',
+        },
+      },
+      fontFamily: {
+        sans: ['"Zen Dots"', 'cursive'],
+        signature: ['"Zen Dots"', 'cursive'],
       },
     },
   },
