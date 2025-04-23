@@ -30,6 +30,7 @@
   "Cloud": {
     "tools": [
       { "name": "AWS EC2", "logo": "/logos/amazonec2.svg", "url": "https://aws.amazon.com/ec2/" },
+      { "name": "AWS ECR", "logo": "/logos/amazonecs.svg", "url": "https://aws.amazon.com/ecr/" },
       { "name": "AWS S3", "logo": "/logos/amazons3.svg", "url": "https://aws.amazon.com/s3/" },
       { "name": "Route 53", "logo": "/logos/amazonroute53.svg", "url": "https://aws.amazon.com/route53/" },
       { "name": "Cloudinary", "logo": "/logos/cloudinary.svg", "url": "https://cloudinary.com" }
