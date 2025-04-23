@@ -1,6 +1,8 @@
 package database
 
 import (
+	"github.com/premo14/personal-website/backend/models"
+	"gorm.io/datatypes"
 	"log"
 	"os"
 
@@ -30,4 +32,38 @@ func ConnectDB() {
 	}
 
 	DB = db
+
+	sqlDB, err := DB.DB()
+	if err != nil {
+		log.Fatal("Failed to get sql.DB from gorm DB:", err)
+	}
+
+	err = sqlDB.Ping()
+	if err != nil {
+		log.Fatal("Database connection failed:", err)
+	}
+
+	log.Println("✅ Successfully connected to the database!")
+
+	err = DB.AutoMigrate(&models.Resume{})
+	if err != nil {
+		log.Fatal("Failed to auto-migrate Resume model:", err)
+	}
+
+	var existing Resume
+	result := DB.First(&existing)
+	if result.Error == gorm.ErrRecordNotFound {
+		log.Println("No resume found, creating initial empty resume...")
+
+		initial := Resume{
+			Content: datatypes.JSON([]byte(`{}`)),
+		}
+
+		if err := DB.Create(&initial).Error; err != nil {
+			log.Fatal("Failed to seed resume:", err)
+		}
+
+		log.Println("✅ Seeded initial resume.")
+	}
+
 }
