@@ -1,6 +1,7 @@
 package database
 
 import (
+	"errors"
 	"github.com/premo14/personal-website/backend/models"
 	"gorm.io/datatypes"
 	"log"
@@ -50,13 +51,13 @@ func ConnectDB() {
 		log.Fatal("Failed to auto-migrate Resume model:", err)
 	}
 
-	var existing Resume
+	var existing models.Resume
 	result := DB.First(&existing)
-	if result.Error == gorm.ErrRecordNotFound {
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		log.Println("No resume found, creating initial empty resume...")
 
-		initial := Resume{
-			Content: datatypes.JSON([]byte(`{}`)),
+		initial := models.Resume{
+			Content: datatypes.JSON(`{}`),
 		}
 
 		if err := DB.Create(&initial).Error; err != nil {

@@ -17,6 +17,7 @@ services:
     volumes:
       - ./react:/app
       - /app/node_modules
+    restart: unless-stopped
     networks:
       - personal-website-network
 
@@ -37,6 +38,7 @@ services:
       - ./backend:/app
     depends_on:
       - postgres
+    restart: unless-stopped
     networks:
       - personal-website-network
 
