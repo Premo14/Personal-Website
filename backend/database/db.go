@@ -57,7 +57,36 @@ func ConnectDB() {
 		log.Println("No resume found, creating initial empty resume...")
 
 		initial := models.Resume{
-			Content: datatypes.JSON(`{}`),
+			ProfessionalSummary: "",
+			TechnicalSkills: datatypes.JSON(`{
+        "languages": "",
+        "frameworks/libraries": "",
+        "databases": "",
+        "cloud": "",
+        "devops": "",
+        "utilities": ""
+    }`),
+			ProfessionalExperience: datatypes.JSON(`[
+        {
+            "title": "",
+            "company": "",
+            "location": "",
+            "dateRange": "",
+            "bullets": []
+        }
+    ]`),
+			Projects: datatypes.JSON(`[
+        {
+            "name": "",
+            "description": ""
+        }
+    ]`),
+			Education: datatypes.JSON(`[
+        {
+            "institution": "",
+            "degree": ""
+        }
+    ]`),
 		}
 
 		if err := DB.Create(&initial).Error; err != nil {

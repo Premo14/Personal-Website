@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/premo14/personal-website/backend/database"
 	"github.com/premo14/personal-website/backend/routes"
 	"log"
@@ -13,6 +14,13 @@ func main() {
 
 	// Initialize app
 	app := fiber.New()
+
+	// Cors
+	app.Use(cors.New())
+	//     app.Use(cors.New(cors.Config{
+	//         AllowOrigins: "",
+	//         AllowMethods: ""
+	//     }))
 
 	// Group routes
 	api := app.Group("/api")

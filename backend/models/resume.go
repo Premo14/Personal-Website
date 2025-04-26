@@ -2,12 +2,41 @@ package models
 
 import (
 	"gorm.io/datatypes"
-	"time"
+	"gorm.io/gorm"
 )
 
 type Resume struct {
-	ID        uint           `gorm:"primaryKey"`
-	Content   datatypes.JSON `gorm:"type:jsonb"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	gorm.Model
+	ProfessionalSummary    string         `gorm:"type:text" json:"professionalSummary"`
+	TechnicalSkills        datatypes.JSON `gorm:"type:jsonb" json:"technicalSkills"`
+	ProfessionalExperience datatypes.JSON `gorm:"type:jsonb" json:"professionalExperience"`
+	Projects               datatypes.JSON `gorm:"type:jsonb" json:"projects"`
+	Education              datatypes.JSON `gorm:"type:jsonb" json:"education"`
+}
+
+type TechnicalSkills struct {
+	Languages              string `json:"name"`
+	FrameworksAndLibraries string `json:"frameworks/libraries"`
+	Databases              string `json:"databases"`
+	Cloud                  string `json:"cloud"`
+	DevOps                 string `json:"devops"`
+	Utilities              string `json:"utilities"`
+}
+
+type Experience struct {
+	Title     string   `json:"title"`
+	Company   string   `json:"company"`
+	Location  string   `json:"location"`
+	DateRange string   `json:"dateRange"`
+	Bullets   []string `json:"bullets"`
+}
+
+type Project struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+}
+
+type Education struct {
+	Institution string `json:"institution"`
+	Degree      string `json:"degree"`
 }
