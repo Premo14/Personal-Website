@@ -1,10 +1,12 @@
-# Stage 1: Build the Go application
+##############################
+# Stage 1: Build (for both dev and prod)
 FROM golang:1.23-alpine AS builder
 
-# Enable Go modules and clean caching
-ENV CGO_ENABLED=0 \
-    GOOS=linux \
-    GO111MODULE=on
+# Install git
+RUN apk add --no-cache git
+
+# Set environment
+ENV CGO_ENABLED=0 GOOS=linux GO111MODULE=on
 
 WORKDIR /app
 
@@ -15,19 +17,44 @@ RUN go mod download
 # Copy the rest of the app
 COPY . .
 
-# Build the Go app
+# Install air for live reload (only used in dev container)
+RUN go install github.com/air-verse/air@latest
+
+# Build the production binary
 RUN go build -o server .
 
-# Stage 2: Create a minimal runtime image
-FROM alpine:latest
+##############################
+# Stage 2: Development container (with Air)
+FROM golang:1.23-alpine AS development
+
+WORKDIR /app
+
+# Install git
+RUN apk add --no-cache git
+
+# Copy source code
+COPY --from=builder /app /app
+
+# Copy Air binary
+COPY --from=builder /go/bin/air /usr/bin/air
+
+# Expose the app port
+EXPOSE 8080
+
+# Command: run Air (live reload server)
+CMD ["air"]
+
+##############################
+# Stage 3: Production container (minimal image)
+FROM alpine:latest AS prod
 
 WORKDIR /root/
 
-# Copy the compiled binary from the builder
+# Copy only the final server binary
 COPY --from=builder /app/server .
 
-# Expose the port your app will run on
+# Expose the app port
 EXPOSE 8080
 
-# Run the app
+# Command: run the server binary
 CMD ["./server"]

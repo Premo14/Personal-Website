@@ -1,99 +1,45 @@
 package database
 
 import (
-	"errors"
-	"github.com/premo14/personal-website/backend/models"
-	"gorm.io/datatypes"
+	"fmt"
 	"log"
-	"os"
+	"time"
 
+	"github.com/premo14/personal-website/backend/config"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
 
 func ConnectDB() {
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
+	conf := config.LoadConfig()
 
-	dsn := "host=" + dbHost +
-		" user=" + dbUser +
-		" password=" + dbPassword +
-		" dbname=" + dbName +
-		" port=" + dbPort +
-		" sslmode=disable TimeZone=UTC"
+	dsn := fmt.Sprintf(
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=UTC",
+		conf.DBHost,
+		conf.DBUser,
+		conf.DBPassword,
+		conf.DBName,
+		conf.DBPort,
+	)
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
-		log.Fatal("Failed to connect to database:", err)
+		log.Fatalf("Failed to connect to database: %v", err)
 	}
+
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalf("Failed to get database instance: %v", err)
+	}
+
+	sqlDB.SetMaxOpenConns(10)
+	sqlDB.SetMaxIdleConns(5)
+	sqlDB.SetConnMaxLifetime(1 * time.Hour)
 
 	DB = db
-
-	sqlDB, err := DB.DB()
-	if err != nil {
-		log.Fatal("Failed to get sql.DB from gorm DB:", err)
-	}
-
-	err = sqlDB.Ping()
-	if err != nil {
-		log.Fatal("Database connection failed:", err)
-	}
-
-	log.Println("✅ Successfully connected to the database!")
-
-	err = DB.AutoMigrate(&models.Resume{})
-	if err != nil {
-		log.Fatal("Failed to auto-migrate Resume model:", err)
-	}
-
-	var existing models.Resume
-	result := DB.First(&existing)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
-		log.Println("No resume found, creating initial empty resume...")
-
-		initial := models.Resume{
-			ProfessionalSummary: "",
-			TechnicalSkills: datatypes.JSON(`{
-        "languages": "",
-        "frameworks/libraries": "",
-        "databases": "",
-        "cloud": "",
-        "devops": "",
-        "utilities": ""
-    }`),
-			ProfessionalExperience: datatypes.JSON(`[
-        {
-            "title": "",
-            "company": "",
-            "location": "",
-            "dateRange": "",
-            "bullets": []
-        }
-    ]`),
-			Projects: datatypes.JSON(`[
-        {
-            "name": "",
-            "description": ""
-        }
-    ]`),
-			Education: datatypes.JSON(`[
-        {
-            "institution": "",
-            "degree": ""
-        }
-    ]`),
-		}
-
-		if err := DB.Create(&initial).Error; err != nil {
-			log.Fatal("Failed to seed resume:", err)
-		}
-
-		log.Println("✅ Seeded initial resume.")
-	}
-
 }

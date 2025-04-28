@@ -1,4 +1,3 @@
-// src/components/Footer.tsx
 export default function Footer() {
     return (
         <footer className="bg-surface text-textPrimary text-center py-8 mt-auto">

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import Navbar from '../components/static/Navbar.tsx';
-import Footer from '../components/static/Footer.tsx';
+import Navbar from '@/components/static/Navbar.tsx';
+import Footer from '@/components/static/Footer.tsx';
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -13,4 +13,3 @@ export default function Layout({ children }: { children: ReactNode }) {
         </div>
     );
 }
-

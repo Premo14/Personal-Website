@@ -2,22 +2,24 @@ services:
   frontend:
     container_name: frontend
     ports:
-      - "${VITE_APP_PORT:-5137}:${VITE_APP_PORT:-5137}"
+      - "${VITE_APP_PORT:-5173}:${VITE_APP_PORT:-5173}"
     build:
       context: ./react
       dockerfile: Dockerfile
-      target: ${BUILD_STAGE}
+      target: ${VITE_BUILD_STAGE}
     working_dir: /app
     environment:
-      - VITE_APP_PORT=${VITE_APP_PORT}
-      - BACKEND_PORT=${BACKEND_PORT}
-      - BUILD_STAGE=${BUILD_STAGE}
-      - HOST=${HOST}
-      - VITE_RESUME_UPLOAD_PASSCODE=${VITE_RESUME_UPLOAD_PASSCODE}
+      - VITE_PORT=${VITE_PORT}
+      - VITE_BACKEND_PORT=${VITE_BACKEND_PORT}
+      - VITE_BUILD_STAGE=${VITE_BUILD_STAGE}
+      - VITE_HOST=${VITE_HOST}
+      - VITE_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
     volumes:
       - ./react:/app
       - /app/node_modules
     restart: unless-stopped
+    depends_on:
+      - backend
     networks:
       - personal-website-network
 
@@ -26,6 +28,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+      target: ${VITE_BUILD_STAGE:-development}
     ports:
       - "${BACKEND_PORT:-8080}:${BACKEND_PORT:-8080}"
     environment:

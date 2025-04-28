@@ -62,7 +62,7 @@ export function ResumePDF({ data }: ResumePDFProps) {
                 <View style={styles.section}>
                     <Text style={styles.header}>Professional Experience</Text>
                     {data.professionalExperience.map((exp, idx) => (
-                        <View key={idx} style={styles.subsection}>
+                        <View key={idx} style={styles.section}>
                             <Text style={styles.subheader}>{exp.title} | {exp.company} ({exp.location})</Text>
                             <Text style={{ fontSize: 10 }}>{exp.dateRange}</Text>
                             {exp.bullets.map((bullet, bulletIdx) => (

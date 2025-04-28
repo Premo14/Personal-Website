@@ -1,3 +1,56 @@
+// import { useEffect, useState } from 'react';
+// import ProjectsForm from '@/components/projects/ProjectsForm';
+// import {PortfolioProject} from "@/models/PortfolioProject.ts";
+
 export default function Projects() {
-    return <h1>Projects</h1>;
+    // const [projects, setProjects] = useState<PortfolioProject[]>([]);
+    // const [adminOpen, setAdminOpen] = useState(false);
+    //
+    // useEffect(() => {
+    //     const fetchProjects = async () => {
+    //         try {
+    //             const response = await fetch('http://localhost:8080/api/v1/projects');
+    //             const data = await response.json();
+    //             setProjects(data);
+    //         } catch (err) {
+    //             console.error('Error fetching projects:', err);
+    //         }
+    //     };
+    //
+    //     fetchProjects();
+    // }, []);
+
+    return (
+        <section className="relative h-full snap-start flex flex-col justify-center items-center px-4 py-10 text-center space-y-6 overflow-hidden">
+            <h1 className="text-3xl">The Projects Page will host live projects (eventually).</h1>
+            <p className="text-lg">To see projects visit my Resume and GitHub for the time being.</p>
+
+            {/*<div className="absolute top-4 left-4 z-20">*/}
+            {/*    <button*/}
+            {/*        onClick={() => setAdminOpen(true)}*/}
+            {/*        className="px-3 py-1 text-sm border border-accent text-accent rounded-md hover:bg-accent hover:text-black transition invert dark:invert-0"*/}
+            {/*    >*/}
+            {/*        Admin*/}
+            {/*    </button>*/}
+            {/*</div>*/}
+
+            {/*<h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">Projects</h2>*/}
+
+            {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">*/}
+            {/*    {projects.map((project, idx) => (*/}
+            {/*        <div key={idx} className="p-4 bg-background rounded-lg shadow-lg text-left hover:border-brand border-2 border-solid transition-all duration-300 ease-in-out">*/}
+            {/*            <h3 className="text-2xl font-bold text-brand mb-2">{project.title}</h3>*/}
+            {/*            <p className="text-textPrimary mb-2">{project.description}</p>*/}
+            {/*            {project.liveLink && (*/}
+            {/*                <a href={project.liveLink} target="_blank" className="text-accent underline">*/}
+            {/*                    View Live*/}
+            {/*                </a>*/}
+            {/*            )}*/}
+            {/*        </div>*/}
+            {/*    ))}*/}
+            {/*</div>*/}
+
+            {/*<ProjectsForm isOpen={adminOpen} onClose={() => setAdminOpen(false)} />*/}
+        </section>
+    );
 }

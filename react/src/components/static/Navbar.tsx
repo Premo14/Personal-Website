@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Sun, Moon } from 'lucide-react';
-import useTheme from "../../hooks/useTheme.ts";
+import useTheme from "@/hooks/useTheme.ts";
 
 export default function Navbar() {
     const { theme, toggleTheme } = useTheme();

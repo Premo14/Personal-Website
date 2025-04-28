@@ -1,8 +1,28 @@
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import WelcomeForm from '@/components/welcome/WelcomeForm';
 
 export default function Welcome() {
+    const [message, setMessage] = useState('');
+    const [adminOpen, setAdminOpen] = useState(false);
+
+    useEffect(() => {
+        const fetchMessage = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/v1/welcome-message');
+                const data = await response.json();
+                setMessage(data.message);
+            } catch (error) {
+                console.error('Failed to fetch welcome message:', error);
+            }
+        };
+
+        fetchMessage();
+    }, []);
+
     return (
         <section className="relative h-full snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden">
+            {/* Background Video */}
             <video
                 className="absolute top-0 left-0 w-full h-full object-cover z-0"
                 autoPlay
@@ -14,6 +34,17 @@ export default function Welcome() {
                 Your browser does not support the video tag.
             </video>
 
+            {/* Admin Button */}
+            <div className="absolute top-4 left-4 z-20">
+                <button
+                    onClick={() => setAdminOpen(true)}
+                    className="px-3 py-1 text-sm border border-accent text-accent rounded-md hover:bg-accent hover:text-black transition invert dark:invert-0"
+                >
+                    Admin
+                </button>
+            </div>
+
+            {/* Welcome Content */}
             <div className="relative z-10">
                 <motion.h1
                     className="md:text-4xl font-signature text-white"
@@ -30,7 +61,7 @@ export default function Welcome() {
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 0.5 }}
                 >
-                    I’m a full stack software engineer actively seeking roles in backend, frontend, DevOps, or software architecture.
+                    {message}
                 </motion.p>
 
                 <motion.ul
@@ -45,6 +76,9 @@ export default function Welcome() {
                     <li>• Contact me Directly</li>
                 </motion.ul>
             </div>
+
+            {/* Welcome Admin Modal */}
+            <WelcomeForm isOpen={adminOpen} onClose={() => setAdminOpen(false)} />
         </section>
     );
 }

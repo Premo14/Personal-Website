@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import ResumeForm from '../components/resume/ResumeForm';
-import { ResumePDF } from '../components/resume/ResumePDF'; // Add this
-import { PDFDownloadLink } from '@react-pdf/renderer'; // Add this
-import ResumeData from '../models/ResumeData';
+import ResumeForm from '@/components/resume/ResumeForm';
+import { ResumePDF } from '@/components/resume/ResumePDF';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ResumeData from '@/models/ResumeData';
+import {API_URL} from "@/API_URL.ts";
 
 export default function Resume() {
     const [resumeData, setResumeData] = useState<ResumeData | null>(null);
@@ -11,7 +12,8 @@ export default function Resume() {
     useEffect(() => {
         const fetchResume = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/v1/resume');
+                console.log("Trying to fetch from API_URL...");
+                const response = await fetch(`${API_URL}/resume`);
                 const data = await response.json();
                 setResumeData(data);
             } catch (error) {

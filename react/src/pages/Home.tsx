@@ -1,5 +1,5 @@
-import Welcome from "../sections/Welcome.tsx";
-import TechStack from "../sections/TechStack.tsx";
+import Welcome from "@/sections/Welcome.tsx";
+import TechStack from "@/sections/TechStack.tsx";
 
 export default function Home() {
     return (

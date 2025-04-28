@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Modal } from '../ui/Modal';
-import ResumeData from '../../models/ResumeData';
+import { Modal } from '@/components/ui/Modal';
+import ResumeData from '@/models/ResumeData';
 import { ResumeAdminPanel } from './ResumeAdminPanel';
 import ProfessionalSummaryForm from './ProfessionalSummaryForm';
 import TechnicalSkillsForm from './TechnicalSkillsForm';

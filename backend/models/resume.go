@@ -15,8 +15,8 @@ type Resume struct {
 }
 
 type TechnicalSkills struct {
-	Languages              string `json:"name"`
-	FrameworksAndLibraries string `json:"frameworks/libraries"`
+	Languages              string `json:"languages"`
+	FrameworksAndLibraries string `json:"frameworks_libraries"`
 	Databases              string `json:"databases"`
 	Cloud                  string `json:"cloud"`
 	DevOps                 string `json:"devops"`

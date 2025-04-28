@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"errors"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/premo14/personal-website/backend/database"
 	"github.com/premo14/personal-website/backend/models"
@@ -36,17 +37,31 @@ func UpdateResume(c *fiber.Ctx) error {
 	db := database.DB
 
 	if err := db.First(&resume, 1).Error; err != nil {
-		if err := db.Create(&input).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Failed to create resume",
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			if err := db.Create(&input).Error; err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+					"error": "Failed to create resume",
+				})
+			}
+			return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+				"message": "Resume created successfully",
 			})
 		}
-	} else {
-		if err := db.Model(&resume).Updates(input).Error; err != nil {
-			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-				"error": "Failed to update resume",
-			})
-		}
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to retrieve resume",
+		})
+	}
+
+	resume.ProfessionalSummary = input.ProfessionalSummary
+	resume.TechnicalSkills = input.TechnicalSkills
+	resume.ProfessionalExperience = input.ProfessionalExperience
+	resume.Projects = input.Projects
+	resume.Education = input.Education
+
+	if err := db.Save(&resume).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to update resume",
+		})
 	}
 
 	return c.JSON(fiber.Map{

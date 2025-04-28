@@ -1,35 +1,66 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"context"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/premo14/personal-website/backend/config"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/gofiber/fiber/v2"
 	"github.com/premo14/personal-website/backend/database"
 	"github.com/premo14/personal-website/backend/routes"
-	"log"
 )
 
 func main() {
-	// Connect to database
-	database.ConnectDB()
-
-	// Initialize app
+	conf := config.LoadConfig()
 	app := fiber.New()
 
-	// Cors
 	app.Use(cors.New())
-	//     app.Use(cors.New(cors.Config{
-	//         AllowOrigins: "",
-	//         AllowMethods: ""
-	//     }))
 
-	// Group routes
-	api := app.Group("/api")
-	v1 := api.Group("/v1")
+	database.ConnectDB()
+	log.Println("Connected to database successfully")
 
-	// Routes
-	routes.HealthCheck(v1)
-	routes.ResumeRoutes(v1)
+	database.MigrateDB()
+	log.Println("Migrations applied successfully")
 
-	// Start server
-	log.Fatal(app.Listen(":8080"))
+	database.SeedDB()
+	log.Println("Seeding complete")
+
+	routes.SetupRoutes(app)
+	log.Println("Routes set up successfully")
+
+	port := conf.ViteBackendPort
+	if port == "" {
+		log.Println("VITE_BACKEND_PORT not set, defaulting to 8080")
+		port = "8080"
+	}
+
+	go func() {
+		if err := app.Listen(":" + port); err != nil {
+			log.Panicf("Failed to start server: %v", err)
+		}
+	}()
+	log.Println("Server is running on port", port)
+
+	app.Options("/*", func(c *fiber.Ctx) error {
+		return c.SendStatus(fiber.StatusNoContent)
+	})
+
+	// Graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, os.Interrupt, syscall.SIGTERM)
+	<-quit
+
+	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := app.Shutdown(); err != nil {
+		log.Panicf("Server shutdown failed: %v", err)
+	}
+
+	log.Println("Server gracefully stopped")
 }

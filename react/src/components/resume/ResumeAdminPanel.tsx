@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const UPLOAD_PASSWORD = import.meta.env.VITE_RESUME_UPLOAD_PASSCODE;
+const UPLOAD_PASSWORD = import.meta.env.VITE_UPLOAD_PASSCODE;
 
 interface ResumeAdminPanelProps {
     onAuthenticated: () => void;

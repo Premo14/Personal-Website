@@ -1,4 +1,4 @@
-import ResumeData from '../../models/ResumeData';
+import ResumeData from '@/models/ResumeData';
 import * as React from "react";
 
 interface ProjectListFormProps {
