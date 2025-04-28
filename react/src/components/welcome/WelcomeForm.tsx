@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { WelcomeAdminPanel } from './WelcomeAdminPanel';
 import { welcomeMessageSchema } from '@/schemas/welcomeMessageSchema';
-import {API_URL} from "@/API_URL.ts";
+import { API_URL } from "@/API_URL.ts";
 
 interface WelcomeFormProps {
     isOpen: boolean;
@@ -60,10 +60,17 @@ export default function WelcomeForm({ isOpen, onClose }: WelcomeFormProps) {
     return (
         <Modal isOpen={isOpen} onClose={handleCancel}>
             {!isAuthenticated ? (
-                <WelcomeAdminPanel
-                    onAuthenticated={() => setIsAuthenticated(true)}
-                    onError={(err) => setError(err)}
-                />
+                <>
+                    {error && (
+                        <div className="text-red-500 mb-4 text-center">
+                            {error}
+                        </div>
+                    )}
+                    <WelcomeAdminPanel
+                        onAuthenticated={() => setIsAuthenticated(true)}
+                        onError={(err) => setError(err)}
+                    />
+                </>
             ) : (
                 <div className="overflow-y-auto max-h-[70vh]">
                     <h2 className="text-2xl font-bold mb-4 text-center">Edit Welcome Message</h2>

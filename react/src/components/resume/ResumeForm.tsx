@@ -55,13 +55,20 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
     return (
         <Modal isOpen={isOpen} onClose={handleCancel}>
             {!isAuthenticated ? (
-                <ResumeAdminPanel
-                    onAuthenticated={() => {
-                        setIsAuthenticated(true);
-                        fetchResume();
-                    }}
-                    onError={(err) => setError(err)}
-                />
+                <>
+                    {error && (
+                        <div className="text-red-500 mb-4">
+                            {error}
+                        </div>
+                    )}
+                    <ResumeAdminPanel
+                        onAuthenticated={() => {
+                            setIsAuthenticated(true);
+                            fetchResume();
+                        }}
+                        onError={(err) => setError(err)}
+                    />
+                </>
             ) : resumeData ? (
                 <div className="overflow-y-auto max-h-[70vh]">
                     <h2 className="text-2xl font-bold mb-4">Edit Resume</h2>
