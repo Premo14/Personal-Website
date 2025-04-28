@@ -11,6 +11,7 @@ env:
   FRONTEND_IMAGE: frontend
   ECR_REPOSITORY: personal-website
   ACCOUNT_ID: 083133290828
+  ECR_REGISTRY: 083133290828.dkr.ecr.us-east-1.amazonaws.com
 
 jobs:
   build-and-push:
@@ -30,24 +31,29 @@ jobs:
       - name: Login to Amazon ECR
         id: ecr-login
         run: |
-          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+
+      - name: Create ECR repositories if not exist
+        run: |
+          aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }}-backend || aws ecr create-repository --repository-name ${{ env.ECR_REPOSITORY }}-backend
+          aws ecr describe-repositories --repository-names ${{ env.ECR_REPOSITORY }}-frontend || aws ecr create-repository --repository-name ${{ env.ECR_REPOSITORY }}-frontend
 
       # Backend
       - name: Build Backend Image
         run: |
-          docker build --target production -t $BACKEND_IMAGE ./backend
-          docker tag $BACKEND_IMAGE:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-backend:latest
+          docker build --target production -t ${{ env.BACKEND_IMAGE }} ./backend
+          docker tag ${{ env.BACKEND_IMAGE }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}-backend:latest
 
       - name: Push Backend Image
         run: |
-          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-backend:latest
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}-backend:latest
 
       # Frontend
       - name: Build Frontend Image
         run: |
-          docker build --target production -t $FRONTEND_IMAGE ./react
-          docker tag $FRONTEND_IMAGE:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-frontend:latest
+          docker build --target production -t ${{ env.FRONTEND_IMAGE }} ./react
+          docker tag ${{ env.FRONTEND_IMAGE }}:latest ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}-frontend:latest
 
       - name: Push Frontend Image
         run: |
-          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-frontend:latest
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}-frontend:latest
