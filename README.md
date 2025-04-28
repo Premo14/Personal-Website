@@ -5,11 +5,9 @@
 ### Frontend
 - [**React**](https://reactjs.org/) (frontend UI framework)
 - [**Vite**](https://vitejs.dev/) (frontend build tool)
-- [**Axios**](https://axios-http.com/) (HTTP client for API calls)
 - [**Tailwind CSS**](https://tailwindcss.com/) (utility-first CSS framework)
 - [**React Router**](https://reactrouter.com/) (client-side routing)
 - [**React Query**](https://tanstack.com/query/latest) (server-state management)
-- [**react-hook-form**](https://react-hook-form.com/) (form handling)
 
 ### Backend
 - [**Go**](https://golang.org/) (backend programming language)
