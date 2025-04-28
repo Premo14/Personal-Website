@@ -6,7 +6,7 @@ services:
     build:
       context: ./react
       dockerfile: Dockerfile
-      target: ${VITE_BUILD_STAGE}
+      target: ${VITE_BUILD_STAGE:-development}
     working_dir: /app
     environment:
       - VITE_PORT=${VITE_PORT}
