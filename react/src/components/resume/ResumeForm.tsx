@@ -7,6 +7,7 @@ import TechnicalSkillsForm from './TechnicalSkillsForm';
 import ExperienceListForm from './ExperienceListForm';
 import ProjectListForm from './ProjectListForm';
 import EducationListForm from './EducationListForm';
+import {API_URL} from "@/API_URL.ts";
 
 interface ResumeFormProps {
     isOpen: boolean;
@@ -20,7 +21,7 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
 
     const fetchResume = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/resume');
+            const response = await fetch(`${API_URL}/resume`);
             const data = await response.json();
             setResumeData(data);
         } catch (err) {
@@ -30,7 +31,7 @@ export default function ResumeForm({ isOpen, onClose }: ResumeFormProps) {
 
     const handleSave = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/resume', {
+            const response = await fetch(`${API_URL}/resume`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(resumeData),

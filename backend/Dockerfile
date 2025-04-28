@@ -46,7 +46,7 @@ CMD ["air"]
 
 ##############################
 # Stage 3: Production container (minimal image)
-FROM alpine:latest AS prod
+FROM alpine:latest AS production
 
 WORKDIR /root/
 

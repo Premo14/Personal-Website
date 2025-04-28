@@ -1,0 +1,53 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  BACKEND_IMAGE: backend
+  FRONTEND_IMAGE: frontend
+  ECR_REPOSITORY: personal-website
+  ACCOUNT_ID: 083133290828
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        run: |
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      # Backend
+      - name: Build Backend Image
+        run: |
+          docker build --target production -t $BACKEND_IMAGE ./backend
+          docker tag $BACKEND_IMAGE:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-backend:latest
+
+      - name: Push Backend Image
+        run: |
+          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-backend:latest
+
+      # Frontend
+      - name: Build Frontend Image
+        run: |
+          docker build --target production -t $FRONTEND_IMAGE ./react
+          docker tag $FRONTEND_IMAGE:latest $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-frontend:latest
+
+      - name: Push Frontend Image
+        run: |
+          docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY-frontend:latest

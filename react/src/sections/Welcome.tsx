@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import WelcomeForm from '@/components/welcome/WelcomeForm';
+import {API_URL} from "@/API_URL.ts";
 
 export default function Welcome() {
     const [message, setMessage] = useState('');
@@ -9,7 +10,7 @@ export default function Welcome() {
     useEffect(() => {
         const fetchMessage = async () => {
             try {
-                const response = await fetch('http://localhost:8080/api/v1/welcome-message');
+                const response = await fetch(`${API_URL}/welcome-message`);
                 const data = await response.json();
                 setMessage(data.message);
             } catch (error) {

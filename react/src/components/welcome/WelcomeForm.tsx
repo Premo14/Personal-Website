@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { WelcomeAdminPanel } from './WelcomeAdminPanel';
 import { welcomeMessageSchema } from '@/schemas/welcomeMessageSchema';
+import {API_URL} from "@/API_URL.ts";
 
 interface WelcomeFormProps {
     isOpen: boolean;
@@ -21,7 +22,7 @@ export default function WelcomeForm({ isOpen, onClose }: WelcomeFormProps) {
 
     const fetchMessage = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/welcome-message');
+            const response = await fetch(`${API_URL}/welcome-message`);
             const data = await response.json();
             setMessage(data.message);
         } catch (err) {
@@ -33,7 +34,7 @@ export default function WelcomeForm({ isOpen, onClose }: WelcomeFormProps) {
         try {
             welcomeMessageSchema.parse({ message });
 
-            const response = await fetch('http://localhost:8080/api/v1/welcome-message', {
+            const response = await fetch(`${API_URL}/welcome-message`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message }),

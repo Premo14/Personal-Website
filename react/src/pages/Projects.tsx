@@ -9,7 +9,7 @@ export default function Projects() {
     // useEffect(() => {
     //     const fetchProjects = async () => {
     //         try {
-    //             const response = await fetch('http://localhost:8080/api/v1/projects');
+    //             const response = await fetch('${API_URL}/projects');
     //             const data = await response.json();
     //             setProjects(data);
     //         } catch (err) {

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { TechStackAdminPanel } from './TechStackAdminPanel';
 import { Tool, techStackSchema } from '@/schemas/techStackSchema';
+import {API_URL} from "@/API_URL.ts";
 
 interface TechStackFormProps {
     isOpen: boolean;
@@ -20,7 +21,7 @@ export default function TechStackForm({ isOpen, onClose }: TechStackFormProps) {
 
     const fetchTools = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/tech-stack');
+            const response = await fetch(`${API_URL}/tech-stack`);
             const data = await response.json();
             const toolsArray: Tool[] = Array.isArray(data.tools) ? data.tools : [data.tools];
             setTools(toolsArray);
@@ -33,7 +34,7 @@ export default function TechStackForm({ isOpen, onClose }: TechStackFormProps) {
         try {
             techStackSchema.parse({ tools }); // Validate before sending
 
-            const response = await fetch('http://localhost:8080/api/v1/tech-stack', {
+            const response = await fetch(`${API_URL}/tech-stack`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ tools }),

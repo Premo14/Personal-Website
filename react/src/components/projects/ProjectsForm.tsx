@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { ProjectsAdminPanel } from './ProjectsAdminPanel';
 import { portfolioProjectSchema, PortfolioProjectFormValues } from '@/schemas/projectSchema';
+import {API_URL} from "@/API_URL.ts";
 
 interface ProjectsFormProps {
     isOpen: boolean;
@@ -20,7 +21,7 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
 
     const fetchProjects = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/projects');
+            const response = await fetch(`${API_URL}/projects`);
             const data = await response.json();
             setProjects(data);
         } catch (err) {
@@ -32,7 +33,7 @@ export default function ProjectsForm({ isOpen, onClose }: ProjectsFormProps) {
         try {
             projects.forEach((project) => portfolioProjectSchema.parse(project));
 
-            const response = await fetch('http://localhost:8080/api/v1/projects', {
+            const response = await fetch(`${API_URL}/projects`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(projects),
