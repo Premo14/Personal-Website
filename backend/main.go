@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -19,7 +20,17 @@ func main() {
 	conf := config.LoadConfig()
 	app := fiber.New()
 
-	app.Use(cors.New())
+	allowedOrigins := []string{"https://premsanity.com"}
+
+	if os.Getenv("VITE_BUILD_STAGE") == "development" {
+		allowedOrigins = append(allowedOrigins, "http://localhost:3000")
+	}
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: strings.Join(allowedOrigins, ","),
+		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders: "Content-Type,Authorization",
+	}))
 
 	database.ConnectDB()
 	log.Println("Connected to database successfully")

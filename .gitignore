@@ -24,3 +24,9 @@ dist-ssr
 *.sw?
 
 .env
+
+*.pem
+.terraform.lock.hcl
+.terraform
+terraform.tfvars
+kp/
