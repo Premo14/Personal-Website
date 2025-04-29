@@ -117,7 +117,7 @@ resource "aws_instance" "PersonalSiteEC2" {
   vpc_security_group_ids = [aws_security_group.allow_http_https_ssh.id]
 
   user_data = templatefile("userdata.sh", {
-    POSTGRES_DATABASE           = var.postgres_db,
+    POSTGRES_DB                 = var.postgres_db,
     POSTGRES_USER               = var.postgres_user,
     POSTGRES_PASSWORD           = var.postgres_password,
     POSTGRES_PORT               = var.postgres_port,
