@@ -16,8 +16,8 @@ unzip awscliv2.zip && sudo ./aws/install
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 083133290828.dkr.ecr.us-east-1.amazonaws.com
 
 # Pull images
-docker pull 083133290828.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
-docker pull 083133290828.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
+docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
+docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
 docker pull postgres:15
 
 # Create docker-compose.yml

@@ -10,8 +10,8 @@ env:
   BACKEND_IMAGE: backend
   FRONTEND_IMAGE: frontend
   ECR_REPOSITORY: personal-website
-  ACCOUNT_ID: 083133290828
-  ECR_REGISTRY: 083133290828.dkr.ecr.us-east-1.amazonaws.com
+  ACCOUNT_ID: 739275461129
+  ECR_REGISTRY: 739275461129.dkr.ecr.us-east-1.amazonaws.com
 
 jobs:
   build-and-push:
