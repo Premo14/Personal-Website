@@ -1,4 +1,5 @@
 provider "aws" {
+  profile = "premo.aj.24@gmail.com"
   region = var.aws_region
 }
 
@@ -261,7 +262,7 @@ resource "aws_lb_target_group" "personal_site_backend_tg" {
 
 # DNS records
 data "aws_route53_zone" "premsanity" {
-  name         = "premsanity.com"
+  name         = "Z0615570119VZWM7X1M4V"
   private_zone = false
 }
 
@@ -279,7 +280,7 @@ resource "aws_route53_record" "premsanity_com" {
 
 resource "aws_route53_record" "api_premsanity_com" {
   zone_id = data.aws_route53_zone.premsanity.zone_id
-  name    = "api.premsanity.com"
+  name    = "api.premsanity.com."
   type    = "A"
 
   alias {
