@@ -26,6 +26,15 @@ unzip awscliv2.zip
 echo "Logging in to ECR..."
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 739275461129.dkr.ecr.us-east-1.amazonaws.com
 
+# Create .env file
+echo "Creating .env file..."
+cat <<EOT > /home/ubuntu/.env
+POSTGRES_USER=${POSTGRES_USER}
+POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+POSTGRES_DB=${POSTGRES_DB}
+VITE_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
+EOT
+
 # Pull Docker images
 echo "Pulling Docker images..."
 docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
@@ -72,6 +81,8 @@ services:
     image: 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
     container_name: frontend
     restart: always
+    environment:
+      VITE_UPLOAD_PASSCODE: ${VITE_UPLOAD_PASSCODE}
     ports:
       - "80:80"
     depends_on:
@@ -85,15 +96,6 @@ volumes:
 networks:
   personal-website-network:
     driver: bridge
-EOT
-
-# Create .env file
-echo "Creating .env file..."
-cat <<EOT > /home/ubuntu/.env
-POSTGRES_USER=${POSTGRES_USER}
-POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-POSTGRES_DB=${POSTGRES_DB}
-VITE_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
 EOT
 
 # Start containers

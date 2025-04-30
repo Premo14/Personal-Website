@@ -20,7 +20,7 @@ func SeedTechStack() error {
 				Tools: datatypes.JSON(`{
 					"name": "Go",
 					"link": "https://go.dev/",
-					"icon": "../../public/logos/go.svg",
+					"icon": "/logos/go.svg",
 					"categories": ["Backend"]
 				}`),
 			}
