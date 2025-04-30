@@ -22,7 +22,7 @@ export default function Welcome() {
     }, []);
 
     return (
-        <section className="relative h-full snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden">
+        <section className="relative min-h-[80vh] snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden">
             {/* Background Video */}
             <video
                 className="absolute top-0 left-0 w-full h-full object-cover z-0"
@@ -39,7 +39,7 @@ export default function Welcome() {
             <div className="absolute top-4 left-4 z-20">
                 <button
                     onClick={() => setAdminOpen(true)}
-                    className="px-3 py-1 text-sm border border-accent text-accent rounded-md hover:bg-accent hover:text-black transition invert dark:invert-0"
+                    className="px-4 py-2 min-w-[80px] rounded-full border-accent text-accent rounded-md hover:bg-accent hover:text-black transition invert-0"
                 >
                     Admin
                 </button>

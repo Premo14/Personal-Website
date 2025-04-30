@@ -23,13 +23,15 @@ func main() {
 	allowedOrigins := []string{"https://premsanity.com"}
 
 	if os.Getenv("VITE_BUILD_STAGE") == "development" {
-		allowedOrigins = append(allowedOrigins, "http://localhost:3000")
+		log.Println("Running in development mode, enabling localhost CORS")
+		allowedOrigins = append(allowedOrigins, "http://localhost:5173")
 	}
 
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: strings.Join(allowedOrigins, ","),
-		AllowMethods: "GET,POST,PUT,DELETE,OPTIONS",
-		AllowHeaders: "Content-Type,Authorization",
+		AllowOrigins:     strings.Join(allowedOrigins, ","),
+		AllowMethods:     "GET,POST,PUT,DELETE,OPTIONS",
+		AllowHeaders:     "Content-Type,Authorization",
+		AllowCredentials: true,
 	}))
 
 	database.ConnectDB()

@@ -6,6 +6,7 @@
 
 @layer base {
     body {
+        font-family: 'Inter', sans-serif;
         background-color: theme('colors.background.DEFAULT');
         color: theme('colors.textPrimary.DEFAULT');
     }
@@ -16,6 +17,7 @@
     }
 
     h1, h2, h3 {
+        font-family: 'Zen Dots', cursive;
         @apply font-bold;
     }
 }
@@ -63,10 +65,12 @@
 }
 
 @layer components {
-    .card {
-        background-color: theme('colors.surface.DEFAULT');
-        color: theme('colors.textPrimary.DEFAULT');
-        @apply p-4 rounded-xl shadow-md transition;
+    @layer components {
+        .card {
+            background-color: theme('colors.surface.DEFAULT');
+            color: theme('colors.textPrimary.DEFAULT');
+            @apply p-4 sm:p-6 md:p-8 rounded-xl shadow-md transition;
+        }
     }
 
     .dark .card {
