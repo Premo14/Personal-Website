@@ -1,27 +1,41 @@
 #!/bin/bash
-set -e
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+set -euxo pipefail
 
-# Update and install Docker
-sudo apt-get update -y && sudo apt-get upgrade -y
-sudo apt-get install -y ca-certificates curl gnupg lsb-release unzip
-curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
-sudo systemctl start docker && sudo systemctl enable docker
-sudo chmod 666 /var/run/docker.sock
+echo "---- STARTING USER DATA SCRIPT ----"
+
+# Install base packages
+apt-get update -y && apt-get upgrade -y
+apt-get install -y ca-certificates curl gnupg lsb-release unzip jq
+
+# Install Docker
+echo "Installing Docker..."
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+systemctl start docker
+systemctl enable docker
+chmod 666 /var/run/docker.sock
 
 # Install AWS CLI
+echo "Installing AWS CLI..."
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip && sudo ./aws/install
+unzip awscliv2.zip
+./aws/install
 
-# Authenticate Docker to ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 083133290828.dkr.ecr.us-east-1.amazonaws.com
+# Log in to ECR
+echo "Logging in to ECR..."
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 739275461129.dkr.ecr.us-east-1.amazonaws.com
 
-# Pull images
+# Pull Docker images
+echo "Pulling Docker images..."
 docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
 docker pull 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
 docker pull postgres:15
 
 # Create docker-compose.yml
+echo "Creating docker-compose.yml..."
 cat <<EOT > /home/ubuntu/docker-compose.yml
+version: "3.8"
 services:
   postgres:
     image: postgres:15
@@ -31,13 +45,14 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      VITE_UPLOAD_PASSCODE: ${VITE_UPLOAD_PASSCODE}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - personal-website-network
 
   backend:
-    image: 083133290828.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
+    image: 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-backend:latest
     container_name: backend
     restart: always
     environment:
@@ -54,7 +69,7 @@ services:
       - personal-website-network
 
   frontend:
-    image: 083133290828.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
+    image: 739275461129.dkr.ecr.us-east-1.amazonaws.com/personal-website-frontend:latest
     container_name: frontend
     restart: always
     ports:
@@ -73,12 +88,17 @@ networks:
 EOT
 
 # Create .env file
+echo "Creating .env file..."
 cat <<EOT > /home/ubuntu/.env
 POSTGRES_USER=${POSTGRES_USER}
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 POSTGRES_DB=${POSTGRES_DB}
+VITE_UPLOAD_PASSCODE=${VITE_UPLOAD_PASSCODE}
 EOT
 
 # Start containers
+echo "Starting containers..."
 cd /home/ubuntu
 docker compose --env-file .env up -d
+
+echo "---- USER DATA SCRIPT COMPLETE ----"

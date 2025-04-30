@@ -57,3 +57,7 @@ variable "role" {
 variable "certificate_arn" {
   description = "The ARN of the SSL certificate for HTTPS"
 }
+
+variable "vite_upload_passcode" {
+  description = "Passcode for admin buttons"
+}

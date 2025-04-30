@@ -123,7 +123,8 @@ resource "aws_instance" "PersonalSiteEC2" {
     POSTGRES_PASSWORD           = var.postgres_password,
     POSTGRES_PORT               = var.postgres_port,
     BACKEND_PORT                = var.backend_port,
-    VITE_BUILD_STAGE            = var.vite_build_stage
+    VITE_BUILD_STAGE            = var.vite_build_stage,
+    VITE_UPLOAD_PASSCODE        = var.vite_upload_passcode
   })
 
   tags = { Name = "PersonalSiteEC2Instance" }
@@ -220,7 +221,13 @@ resource "aws_lb_listener_rule" "backend_rule" {
 
   condition {
     host_header {
-      values = ["api.premsanity.com"]
+      values = ["premsanity.com"]
+    }
+  }
+
+  condition {
+    path_pattern {
+      values = ["/api/*"]
     }
   }
 }
@@ -252,7 +259,7 @@ resource "aws_lb_target_group" "personal_site_backend_tg" {
 
   health_check {
     interval            = 30
-    path                = "/health"
+    path                = "/api/v1/health"
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
@@ -262,25 +269,12 @@ resource "aws_lb_target_group" "personal_site_backend_tg" {
 
 # DNS records
 data "aws_route53_zone" "premsanity" {
-  name         = "Z0615570119VZWM7X1M4V"
-  private_zone = false
+  zone_id = "Z0615570119VZWM7X1M4V"
 }
 
 resource "aws_route53_record" "premsanity_com" {
   zone_id = data.aws_route53_zone.premsanity.zone_id
   name    = "premsanity.com"
-  type    = "A"
-
-  alias {
-    name                   = aws_lb.personal_site_alb.dns_name
-    zone_id                = aws_lb.personal_site_alb.zone_id
-    evaluate_target_health = true
-  }
-}
-
-resource "aws_route53_record" "api_premsanity_com" {
-  zone_id = data.aws_route53_zone.premsanity.zone_id
-  name    = "api.premsanity.com."
   type    = "A"
 
   alias {
