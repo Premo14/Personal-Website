@@ -22,18 +22,20 @@ export default function Welcome() {
     }, []);
 
     return (
-        <section className="relative min-h-[80vh] snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden">
+        <section className="snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden h-full">
             {/* Background Video */}
-            <video
-                className="absolute top-0 left-0 w-full h-full object-cover z-0"
-                autoPlay
-                muted
-                loop
-                playsInline
-            >
-                <source src="/videos/welcome-dark.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-            </video>
+            <div className="absolute inset-0 z-0 pointer-events-none">
+                <video
+                    className="absolute inset-0 w-full h-full object-cover z-0"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                >
+                    <source src="/videos/welcome-dark.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
 
             {/* Admin Button */}
             <div className="absolute top-4 left-4 z-20">
