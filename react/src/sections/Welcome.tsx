@@ -22,20 +22,14 @@ export default function Welcome() {
     }, []);
 
     return (
-        <section className="snap-start flex flex-col justify-center items-center px-4 text-center space-y-6 overflow-hidden h-full">
+        <section className="relative h-full snap-start overflow-hidden flex items-center justify-center">
             {/* Background Video */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <video
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                >
+            <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
+                <video className="w-full h-full object-cover" autoPlay muted loop playsInline>
                     <source src="/videos/welcome-dark.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
                 </video>
             </div>
+
 
             {/* Admin Button */}
             <div className="absolute top-4 left-4 z-20">
@@ -48,7 +42,7 @@ export default function Welcome() {
             </div>
 
             {/* Welcome Content */}
-            <div className="relative z-10">
+            <div className="relative z-10 flex flex-col items-center justify-center text-center px-4">
                 <motion.h1
                     className="md:text-4xl font-signature text-white"
                     initial={{ opacity: 0, y: -30 }}
@@ -79,6 +73,14 @@ export default function Welcome() {
                     <li>• Contact me Directly</li>
                 </motion.ul>
             </div>
+
+            <div className="absolute bottom-6 right-10 transform -translate-x-1/2 z-10 animate-bounce text-textMuted">
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+                <span className="text-sm mt-1 block">Scroll</span>
+            </div>
+
 
             {/* Welcome Admin Modal */}
             <WelcomeForm isOpen={adminOpen} onClose={() => setAdminOpen(false)} />

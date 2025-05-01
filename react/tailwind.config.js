@@ -1,3 +1,5 @@
+import scrollbar from 'tailwind-scrollbar';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class',
@@ -5,6 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
+        scrollbar: '#B38E2C',
+        scrollbarTrack: '#1e1e1e',
         brand: {
           DEFAULT: '#D4AF37',
           dark: '#B38E2C',
@@ -43,5 +47,10 @@ export default {
       },
     },
   },
-  plugins: [],
+  variants: {
+    scrollbar: ['rounded'],
+  },
+  plugins: [
+    scrollbar,
+  ],
 };
