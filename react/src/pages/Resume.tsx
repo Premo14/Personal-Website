@@ -25,7 +25,7 @@ export default function Resume() {
     }, []);
 
     return (
-        <div className="h-full overflow-y-auto snap-y snap-mandatory scroll-smooth">
+        <div className="h-full overflow-y-auto snap-y snap-mandatory scroll-smooth scrollbar scrollbar-thin scrollbar-thumb-white scrollbar-track-[#121212]">
             <section className="container mx-auto px-4 py-10 min-h-screen flex flex-col">
 
                 {/* Buttons */}
